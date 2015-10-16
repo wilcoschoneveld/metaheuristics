@@ -46,8 +46,6 @@ class DifferentialEvolution(val N: Int = 1000, val F: Double = 0.5, val CR: Doub
     Vector.fill(N)(generateMember)
   }
 
-  def populate(bounds: (Double, Double)*): Generation = populate(bounds.toList)
-
   def evolve(f: Member => Double, generation: Generation): Stream[Generation] = {
     // Build a next generation member by member
     val next = generation.zipWithIndex.map {
