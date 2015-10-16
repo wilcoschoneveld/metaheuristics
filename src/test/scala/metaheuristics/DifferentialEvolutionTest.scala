@@ -9,13 +9,11 @@ class DifferentialEvolutionTest extends FlatSpec with Matchers {
   "Parabola" should "have minimum of 2" in {
     val DE = new DifferentialEvolution(N = 10)
 
-    val initial = DE.populate((-10.0, 10.0))
+    val bounds = List((-10.0, 10.0))
 
-    val generations = DE.evolve(x => parabola(x.head), initial)
+    val solution = DE.solve(x => parabola(x.head), bounds)
 
-    val best = generations(100).minBy(x => parabola(x.head))
-
-    parabola(best.head) should be (2.0 +- 0.01)
+    parabola(solution.head) should be (2.0 +- 0.01)
   }
 
   def ackley(x: List[Double], a: Double = 20, b: Double = 0.2, c: Double = 2 * math.Pi): Double = {
@@ -29,12 +27,10 @@ class DifferentialEvolutionTest extends FlatSpec with Matchers {
   "The Ackley function" should "converge to origin" in {
     val DE = new DifferentialEvolution(N = 10)
 
-    val initial = DE.populate((-5.0, 5.0), (-5.0, 5.0))
+    val bounds = List((-5.0, 5.0), (-5.0, 5.0))
 
-    val generations = DE.evolve(ackley(_), initial)
+    val solution = DE.solve(ackley(_), bounds)
 
-    val best = generations(100).minBy(ackley(_))
-
-    all (best) should be (0.0 +- 0.01)
+    all (solution) should be (0.0 +- 0.01)
   }
 }

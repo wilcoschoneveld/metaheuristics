@@ -60,4 +60,12 @@ class DifferentialEvolution(val N: Int = 1000, val F: Double = 0.5, val CR: Doub
     // Stream
     next #:: evolve(f, next)
   }
+
+  def solve(f: Member => Double, bounds: List[(Double, Double)], numGenerations: Int = 100): Member = {
+    // Generate an initial population
+    val initial = populate(bounds)
+
+    // Evolve the population a given number of times and find best result
+    evolve(f, initial).apply(numGenerations).minBy(f(_))
+  }
 }
