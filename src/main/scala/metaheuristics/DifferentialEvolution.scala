@@ -15,9 +15,9 @@ class DifferentialEvolution(val N: Int = 1000, val F: Double = 0.5, val CR: Doub
     val mates = selector.filter(_ != index).take(3).map(generation(_))
 
     // Calculate the donor member
-    (mates(0), mates(1), mates(2)).zipped map {
-      case (e1, e2, e3) => e1 + F * (e2 - e3)
-    }
+    mates.transpose.map {
+      case Seq(e1, e2, e3) => e1 + F * (e2 - e3)
+    }.toList
   }
 
   def recombine(member: Member, donor: Member): Member = {
